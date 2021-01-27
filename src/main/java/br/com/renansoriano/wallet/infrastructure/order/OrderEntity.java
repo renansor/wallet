@@ -6,6 +6,7 @@ import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Type;
@@ -20,6 +21,7 @@ import lombok.Setter;
 @Table(name = "orders")
 public class OrderEntity {
 
+	@Id
 	@Column(name = "id", nullable = false)
 	@Type(type = "uuid-binary")
 	private UUID id;

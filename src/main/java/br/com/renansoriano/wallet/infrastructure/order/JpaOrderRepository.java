@@ -40,6 +40,7 @@ public class JpaOrderRepository implements OrderRepository {
 		return orders;
 	}
 
+	@Transactional
 	@Override
 	public List<Order> findByPersonAndBuyDate(UUID person, ZonedDateTime buyDate) {
 		

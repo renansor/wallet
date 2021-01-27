@@ -1,19 +1,26 @@
 package br.com.renansoriano.wallet.infrastructure.order;
 
+import static org.assertj.core.api.Assertions.*;
+
 import java.math.BigDecimal;
 import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.UUID;
 
-import org.assertj.core.api.Assertions.*;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.ComponentScan;
 
 import br.com.renansoriano.wallet.core.order.Order;
+import br.com.renansoriano.wallet.infrastructure.configuration.BeansConfigurer;
 import br.com.renansoriano.wallet.infrastructure.jpa.EntityManagerProvider;
 
+@EnableAutoConfiguration
+@SpringBootTest( classes = {BeansConfigurer.class, EntityManagerProvider.class})
+@ComponentScan("br.com.renansoriano.wallet.infrastructure.order")
 public class JpaOrderRepositoryTest {
 	
 	@Autowired
@@ -38,7 +45,7 @@ public class JpaOrderRepositoryTest {
 				.stock("ITUB4")
 				.quantity(200)
 				.price(new BigDecimal(30))
-				.brokeragePrice(new BigDecimal(0.1))
+				.brokeragePrice(new BigDecimal(1))
 				.build();
 
 		entityManagerProvider.executeInNewTransaction(em -> {
