@@ -12,5 +12,7 @@ public interface OrderRepository {
 			UUID person,
 			ZonedDateTime buyDate
 			);
+
+	void save(Order order);
 	
 }

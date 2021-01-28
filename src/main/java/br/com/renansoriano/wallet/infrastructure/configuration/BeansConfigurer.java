@@ -26,8 +26,16 @@ import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
+import br.com.renansoriano.wallet.core.wallet.WalletGenerate;
+import br.com.renansoriano.wallet.infrastructure.order.JpaOrderRepository;
+
 @Configuration
 public class BeansConfigurer {
+	
+    @Bean
+    public WalletGenerate walletGenerate(JpaOrderRepository repository) {
+        return new WalletGenerate(repository);
+    }
 
 	@Bean(name = "json")
 	@Primary
