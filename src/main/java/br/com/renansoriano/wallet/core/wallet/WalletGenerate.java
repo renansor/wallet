@@ -29,13 +29,13 @@ public class WalletGenerate {
 		
 		List<Order> orders = repository.findByPerson(request.getPerson());
 		
-		Map<String, Map<String, BigDecimal>> ordersGrouped =
+		Map<String, Map<String, Integer>> ordersGrouped =
 			    orders.stream().collect(
-			    		Collectors.groupingBy(Order::getStock, 
-			    		Collectors.groupingBy(Order::getType, 
-			    		Collectors.reducing(BigDecimal.ZERO, Order::getPrice, BigDecimal::add)
-			    		))
-		);
+			    		Collectors.groupingBy(Order::getStock,
+			    		Collectors.groupingBy(Order::getType, Collectors.summingInt(Order::getQuantity))
+			    		
+			    							 )
+			    		);
 			    
 			    /*
 			    .entrySet()
@@ -48,12 +48,13 @@ public class WalletGenerate {
 		
 		
 		return WalletResult.builder()
+				.person(request.getPerson())
 				.type("BUY")
 				.stock("PETR4")
 				.sumQuantity(30)
 				.avgPrice(new BigDecimal(32))
 				.avgBrokeragePrice(new BigDecimal(1))
-				.teste(ordersGrouped)
+				.wallet(ordersGrouped)
 				.build();		
 	}
 	
