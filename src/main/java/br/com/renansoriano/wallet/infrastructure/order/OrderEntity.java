@@ -59,6 +59,7 @@ public class OrderEntity {
 				.type(type)
 				.financialInstitute(financialInstitute)
 				.stock(stock)
+				.quantity(quantity)
 				.price(brokeragePrice)
 				.brokeragePrice(brokeragePrice)
 				.build();

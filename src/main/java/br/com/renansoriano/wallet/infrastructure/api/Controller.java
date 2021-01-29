@@ -8,6 +8,7 @@ import javax.validation.Valid;
 
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -33,13 +34,15 @@ public class Controller {
 		this.walletGenerate = walletGenerate;
 	}
 
-	@GetMapping("/orders")
-	public List<Order> get(@RequestParam(name="person") UUID person) {
+	@GetMapping("/orders/{person}")
+	public List<Order> get(
+			@PathVariable("person") UUID person,
+			@RequestParam(name="buyDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) ZonedDateTime buyDate) {
 		return repository.findByPerson(person);
 	}
 	
 	@PostMapping("/orders")
-	public String post(@Valid @RequestBody RequestOrder request) {
+	public Order post(@Valid @RequestBody RequestOrder request) {
 		
 		Order order = Order.builder()
 				.id(request.getId())
@@ -55,7 +58,7 @@ public class Controller {
 		
 		repository.save(order);
 		
-		return "insert concluido com sucesso";
+		return order;
 	}
 	
 	@GetMapping("/wallets")
@@ -64,8 +67,8 @@ public class Controller {
 			@RequestParam(name="buyDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) ZonedDateTime buyDate) {
 		
 		WalletRequest request = WalletRequest.walletWithDate()
-		.person(UUID.randomUUID())
-		.buyDate(ZonedDateTime.now())
+		.person(person)
+		.buyDate(buyDate)
 		.build();
 		
 		return walletGenerate.generateWalletWithDate(request);

@@ -29,10 +29,14 @@ public class JpaOrderRepository implements OrderRepository {
 	@Override
 	public List<Order> findByPerson(UUID person) {
 
-		List<OrderEntity> entities = entityManager.createQuery(QUERY_FIND_BY_PERSON, OrderEntity.class)
-				.setParameter("person", person).getResultList();
+		List<OrderEntity> entities = entityManager
+				.createQuery(QUERY_FIND_BY_PERSON, OrderEntity.class)
+				.setParameter("person", person)
+				.getResultList();
 
-		List<Order> orders = entities.stream().map(OrderEntity::toOrder).collect(Collectors.toList());
+		List<Order> orders = entities.stream()
+				.map(OrderEntity::toOrder)
+				.collect(Collectors.toList());
 
 		return orders;
 	}
@@ -42,9 +46,13 @@ public class JpaOrderRepository implements OrderRepository {
 	public List<Order> findByPersonAndBuyDate(UUID person, ZonedDateTime buyDate) {
 
 		List<OrderEntity> entities = entityManager.createQuery(QUERY_FIND_BY_PERSON_AND_BUY_DATE, OrderEntity.class)
-				.setParameter("person", person).setParameter("buyDate", buyDate).getResultList();
+				.setParameter("person", person)
+				.setParameter("buyDate", buyDate)
+				.getResultList();
 
-		List<Order> orders = entities.stream().map(OrderEntity::toOrder).collect(Collectors.toList());
+		List<Order> orders = entities.stream()
+				.map(OrderEntity::toOrder)
+				.collect(Collectors.toList());
 
 		return orders;
 	}
