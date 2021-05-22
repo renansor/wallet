@@ -48,7 +48,8 @@ public class Controller {
 	}
 	
 	@PostMapping("/orders")
-	public Order post(@Valid @RequestBody RequestOrder request) {
+	public Order post(
+			@Valid @RequestBody RequestOrder request) {
 		
 		Order order = Order.builder()
 				.id(request.getId())
@@ -81,14 +82,21 @@ public class Controller {
 	}
 	
 	@GetMapping("/users")
-	public List<User> get(
-			@RequestParam(name="userId", required = false) UUID userId) {
+	public List<User> getUsers() {
 		
 		return jpaUserRepository.findAll();
 	}
 	
+	@GetMapping("/users/{userId}")
+	public User getUserById(
+			@PathVariable(name="userId") UUID userId) {
+		
+		return jpaUserRepository.findByUserId(userId);
+	}
+	
 	@PostMapping("/users")
-	public User post(@Valid @RequestBody RequestUser request) {
+	public User saveUser(
+			@Valid @RequestBody RequestUser request) {
 		
 		
 		User user = User.builder()
@@ -112,10 +120,13 @@ public class Controller {
 	}
 	
 	@DeleteMapping("users/{userId}")
-	public String delete (@PathVariable("userId") UUID userId) {
+	public User deleteUser (
+			@PathVariable("userId") UUID userId) {
 		
-		jpaUserRepository.delete(userId);
+		User user = jpaUserRepository.findByUserId(userId);
 		
-		return "user successfully deleted";
+		jpaUserRepository.delete(user);
+		
+		return user;
 	}
 } 

@@ -60,7 +60,7 @@ public class JpaUserRepository implements UserRepository {
 
 		UserEntity entity = entityManager
 				.createQuery(QUERY_FIND_BY_USER_ID, UserEntity.class)
-				.setParameter("userId", id)
+				.setParameter("id", id)
 				.getSingleResult();
 		
 		logger.info("Found entity {}", entity);
@@ -92,17 +92,20 @@ public class JpaUserRepository implements UserRepository {
 	
 	@Transactional
 	@Override
-	public void delete(UUID userId) {
-		logger.info("Deleting User id {}", userId);
+	public void delete(User user) {
+		logger.info("Deleting User {}", user);
 		
 		try {
-			entityManager.createQuery(QUERY_DELETE_BY_USER_ID, UserEntity.class)
-			.setParameter("id", userId);
+			entityManager.remove(
+					entityManager.contains(UserEntity.of(user)) 
+						? UserEntity.of(user) 
+						: entityManager.merge(UserEntity.of(user))
+			);	
 		} catch (Exception exception) {
 			throw new UserSaveException(
 					exception, 
 					"was not possible to delete user %s",
-					userId);
+					user);
 		}
 		
 		logger.info("Deleted");
