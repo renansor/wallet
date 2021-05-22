@@ -1,0 +1,102 @@
+{
+	"info": {
+		"_postman_id": "645b8cb6-cf27-4f81-b558-46cda08c7389",
+		"name": "New Orders",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "create order",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"id\": \"376260c5-3f7d-4311-a1c7-72f022c4d683\",\n    \"person\": \"92630777-9788-4ad2-a81d-8577ecb10e76\",\n\t\"buy_date\": \"2020-09-12T19:39:00.485-03:00\",\n\t\"type\": \"COMPRA\",\n    \"financial_institute\": \"Itau Corretora\",\n    \"stock\": \"VALE3\",\n    \"quantity\": 10,\n    \"price\": 20.0,\n    \"brokerage_price\": 1.0\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/orders",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"orders"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "show wallet",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"id\": \"376260c5-3f7d-4311-a1c7-72f022c4d689\",\n    \"person\": \"92630777-9788-4ad2-a81d-8577ecb10e76\",\n\t\"buy_date\": \"2020-09-12T19:39:00.485-03:00\",\n\t\"type\": \"COMPRA\",\n    \"financial_institute\": \"Itau Corretora\",\n    \"stock\": \"VALE3\",\n    \"quantity\": 10,\n    \"price\": 20.0,\n    \"brokerage_price\": 1.0\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/wallets?buyDate=2020-09-12T19:39:00.485-03:00&person=92630777-9788-4ad2-a81d-8577ecb10e76",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"wallets"
+					],
+					"query": [
+						{
+							"key": "buyDate",
+							"value": "2020-09-12T19:39:00.485-03:00"
+						},
+						{
+							"key": "person",
+							"value": "92630777-9788-4ad2-a81d-8577ecb10e76"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "list orders",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/orders/92630777-9788-4ad2-a81d-8577ecb10e76/?buyDate=2020-09-12T19:39:00.485-03:00",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"orders",
+						"92630777-9788-4ad2-a81d-8577ecb10e76",
+						""
+					],
+					"query": [
+						{
+							"key": "buyDate",
+							"value": "2020-09-12T19:39:00.485-03:00"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

@@ -1,0 +1,27 @@
+{
+	"info": {
+		"_postman_id": "183fed17-7db0-43ad-8552-dd1963bae8cc",
+		"name": "Wallets",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Show Wallet",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/wallets",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"wallets"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

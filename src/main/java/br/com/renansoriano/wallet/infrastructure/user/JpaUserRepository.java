@@ -19,6 +19,7 @@ public class JpaUserRepository implements UserRepository {
 	
 	private static final Logger logger = LoggerFactory.getLogger(JpaUserRepository.class);
 
+	private static final String QUERY_FIND_ALL = "SELECT p FROM UserEntity p";
 	private static final String QUERY_FIND_BY_USER_ID = "SELECT p FROM UserEntity p WHERE p.id = :id";
 	private static final String QUERY_DELETE_BY_USER_ID = "DELETE FROM UserEntity WHERE id = :id";
 	private static final String QUERY_UPDATE_BY_USER_ID = "UPDATE UserEntity  " ;
@@ -28,16 +29,15 @@ public class JpaUserRepository implements UserRepository {
 	public JpaUserRepository(EntityManager entityManager) {
 		this.entityManager = entityManager;
 	}
-
+	
 	@Transactional
 	@Override
-	public List<User> findByUserId(UUID id) {
+	public List<User> findAll() {
 		
-		logger.info("Finding by id {}", id);
+		logger.info("Finding by all users");
 
 		List<UserEntity> entities = entityManager
-				.createQuery(QUERY_FIND_BY_USER_ID, UserEntity.class)
-				.setParameter("userId", id)
+				.createQuery(QUERY_FIND_ALL, UserEntity.class)
 				.getResultList();
 		
 		logger.info("Found entities {}", entities);
@@ -49,6 +49,27 @@ public class JpaUserRepository implements UserRepository {
 		logger.info("Converted to User {}", users);
 
 		return users;
+		
+	}
+
+	@Transactional
+	@Override
+	public User findByUserId(UUID id) {
+		
+		logger.info("Finding by id {}", id);
+
+		UserEntity entity = entityManager
+				.createQuery(QUERY_FIND_BY_USER_ID, UserEntity.class)
+				.setParameter("userId", id)
+				.getSingleResult();
+		
+		logger.info("Found entity {}", entity);
+
+		User user = entity.toUser();
+		
+		logger.info("Converted to User {}", user);
+
+		return user;
 	}
 
 	@Transactional
@@ -92,7 +113,7 @@ public class JpaUserRepository implements UserRepository {
 	public void update(User user) {
 		logger.info("Updating User {}", user);
 
-		List<User> userDataBase = findByUserId(user.getId());
+		//List<User> userDataBase = (List<User>) findByUserId(user.getId());
 		 
 	
 		//usario.set

@@ -6,6 +6,7 @@ import java.util.UUID;
 
 import javax.validation.Valid;
 
+import org.springframework.beans.factory.annotation.Required;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -39,7 +40,7 @@ public class Controller {
 		this.walletGenerate = walletGenerate;
 	}
 
-	@GetMapping("/orders/{person}")
+	@GetMapping("/orders/{userId}")
 	public List<Order> get(
 			@PathVariable("userId") UUID userId,
 			@RequestParam(name="buyDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) ZonedDateTime buyDate) {
@@ -81,9 +82,9 @@ public class Controller {
 	
 	@GetMapping("/users")
 	public List<User> get(
-			@PathVariable("userId") UUID userId) {
+			@RequestParam(name="userId", required = false) UUID userId) {
 		
-		return jpaUserRepository.findByUserId(userId);
+		return jpaUserRepository.findAll();
 	}
 	
 	@PostMapping("/users")
@@ -94,12 +95,13 @@ public class Controller {
 				.id(UUID.randomUUID())
 				.name(request.getName())
 				.lastName(request.getLastName())
+				.userName(request.getUserName())
 				.birthday(request.getBirthday())
 				.email(request.getEmail())
 				.mobile(request.getMobile())
 				.document(request.getDocument())
 				.password(request.getPassword())
-				.createdAt(request.getCreatedAt())
+				.createdAt(ZonedDateTime.now())
 				.aboutMe(request.getAboutMe())
 				.profilePhoto(request.getProfilePhoto())
 				.build();
@@ -109,7 +111,7 @@ public class Controller {
 		return user;
 	}
 	
-	@DeleteMapping("users/{idUser}")
+	@DeleteMapping("users/{userId}")
 	public String delete (@PathVariable("userId") UUID userId) {
 		
 		jpaUserRepository.delete(userId);

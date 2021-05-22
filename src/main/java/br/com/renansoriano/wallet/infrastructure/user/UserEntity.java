@@ -53,6 +53,13 @@ public class UserEntity {
 	@Column(name = "created_at", nullable = false)
 	private ZonedDateTime createdAt;
 
+	@Column(name = "about_me", nullable = false)
+	private String aboutMe;
+	
+	@Column(name = "profile_photo", nullable = false)
+	private String profilePhoto;
+
+	
 	public User toUser() {
 		return User.builder()
 				.id(id)
@@ -65,6 +72,8 @@ public class UserEntity {
 				.document(document)
 				.password(password)
 				.createdAt(createdAt)
+				.aboutMe(aboutMe)
+				.profilePhoto(profilePhoto)
 				.build();
 	}
 
@@ -81,6 +90,8 @@ public class UserEntity {
 		entity.setDocument(user.getDocument());
 		entity.setPassword(user.getPassword());
 		entity.setCreatedAt(user.getCreatedAt());
+		entity.setAboutMe(user.getAboutMe());
+		entity.setProfilePhoto(user.getProfilePhoto());
 
 		return entity;
 	}

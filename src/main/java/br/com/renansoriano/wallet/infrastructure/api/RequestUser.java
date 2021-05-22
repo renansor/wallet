@@ -1,8 +1,6 @@
 package br.com.renansoriano.wallet.infrastructure.api;
 
 import java.time.LocalDate;
-import java.time.ZonedDateTime;
-import java.util.UUID;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -16,9 +14,6 @@ import lombok.ToString;
 @EqualsAndHashCode
 @ToString
 public class RequestUser {
-	
-	@JsonProperty("id")
-	private UUID id;
 	
 	@JsonProperty("name")
 	private String name;
@@ -44,10 +39,7 @@ public class RequestUser {
 	@JsonProperty("password")
 	private String password;
 	
-	@JsonProperty("created_at")
-	private ZonedDateTime createdAt;
-	
-	@JsonProperty("aboutMe")
+	@JsonProperty("about_me")
 	private String aboutMe;
 	
 	@JsonProperty("profile_photo")
