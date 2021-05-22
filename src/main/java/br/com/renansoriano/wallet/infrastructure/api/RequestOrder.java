@@ -21,7 +21,7 @@ import lombok.ToString;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
     "id",
-    "person",
+    "user_id",
     "buy_date",
     "type",
     "financial_institute",
@@ -35,8 +35,8 @@ public class RequestOrder {
 	@JsonProperty("id")
 	private UUID id;
 	
-	@JsonProperty("person")
-	private UUID person;
+	@JsonProperty("user_id")
+	private UUID userId;
 	
 	@JsonProperty("buy_date")
 	private ZonedDateTime buyDate;
@@ -72,14 +72,14 @@ public class RequestOrder {
         this.id = id;
     }
 
-    @JsonProperty("person")
-    public UUID getPerson() {
-        return person;
+    @JsonProperty("user_id")
+    public UUID getUserId() {
+        return userId;
     }
 
-    @JsonProperty("person")
-    public void setPerson(UUID person) {
-        this.person = person;
+    @JsonProperty("user_id")
+    public void setUserId(UUID userId) {
+        this.userId = userId;
     }
 
     @JsonProperty("buy_date")

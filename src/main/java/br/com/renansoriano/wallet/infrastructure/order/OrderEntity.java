@@ -26,9 +26,9 @@ public class OrderEntity {
 	@Type(type = "uuid-binary")
 	private UUID id;
 	
-	@Column(name = "person", nullable = false)
+	@Column(name = "user_id", nullable = false)
 	@Type(type = "uuid-binary")
-	private UUID person;
+	private UUID userId;
 
 	@Column(name = "buy_date", nullable = false)
 	private ZonedDateTime buyDate;
@@ -54,7 +54,7 @@ public class OrderEntity {
 	public Order toOrder() {
 		return Order.builder()
 				.id(id)
-				.person(person)
+				.userId(userId)
 				.buyDate(buyDate)
 				.type(type)
 				.financialInstitute(financialInstitute)
@@ -69,7 +69,7 @@ public class OrderEntity {
 
 		OrderEntity entity = new OrderEntity();
 		entity.setId(order.getId());
-		entity.setPerson(order.getPerson());
+		entity.setUserId(order.getUserId());
 		entity.setBuyDate(order.getBuyDate());
 		entity.setType(order.getType());
 		entity.setFinancialInstitute(order.getFinancialInstitute());

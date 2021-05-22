@@ -30,7 +30,7 @@ public class JpaOrderRepositoryTest {
 	private JpaOrderRepository repository;
 
 	private Order order1;
-	private UUID personId = UUID.fromString("14100122-520b-4ed0-8d24-8aa857c6c8b0");
+	private UUID userId = UUID.fromString("14100122-520b-4ed0-8d24-8aa857c6c8b0");
 	private ZonedDateTime buyDate = ZonedDateTime.now();
 
 	@BeforeEach
@@ -38,7 +38,7 @@ public class JpaOrderRepositoryTest {
 
 		order1 = Order.builder()
 				.id(UUID.randomUUID())
-				.person(UUID.randomUUID())
+				.userId(UUID.randomUUID())
 				.buyDate(ZonedDateTime.now())
 				.type("COMPRA")
 				.financialInstitute("ITAU")
@@ -61,9 +61,9 @@ public class JpaOrderRepositoryTest {
 	}
 
 	@Test
-	public void findByPerson() {
+	public void findByUserId() {
 		
-		List<Order> result = repository.findByPerson(personId);
+		List<Order> result = repository.findByUserId(userId);
 		assertThat(result).isEqualTo(List.of(order1));
 
 	}
@@ -71,7 +71,7 @@ public class JpaOrderRepositoryTest {
 	@Test
 	public void findByPersonAndBuyDate() {
 		
-		List<Order> result = repository.findByPersonAndBuyDate(personId, buyDate);
+		List<Order> result = repository.findByUserIdAndBuyDate(userId, buyDate);
 		assertThat(result).isEqualTo(List.of(order1));
 
 	}

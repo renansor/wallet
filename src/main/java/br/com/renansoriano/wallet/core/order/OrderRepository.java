@@ -6,10 +6,10 @@ import java.util.UUID;
 
 public interface OrderRepository {
 
-	List<Order> findByPerson(UUID person);
+	List<Order> findByUserId(UUID userId);
 	
-	List<Order> findByPersonAndBuyDate(
-			UUID person,
+	List<Order> findByUserIdAndBuyDate(
+			UUID userId,
 			ZonedDateTime buyDate
 			);
 

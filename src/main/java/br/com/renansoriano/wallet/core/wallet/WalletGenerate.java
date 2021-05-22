@@ -7,6 +7,9 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import br.com.renansoriano.wallet.core.order.Order;
 import br.com.renansoriano.wallet.infrastructure.order.JpaOrderRepository;
 import lombok.Builder;
@@ -18,6 +21,8 @@ import lombok.ToString;
 @ToString
 public class WalletGenerate {
 	
+	private static final Logger logger = LoggerFactory.getLogger(WalletGenerate.class);
+	
 	private final JpaOrderRepository repository;
 	
 	@Builder
@@ -27,35 +32,34 @@ public class WalletGenerate {
 	
 	public WalletResult generateWalletWithDate(WalletRequest request) {
 		
-		List<Order> orders = repository.findByPerson(request.getPerson());
+		logger.info("Start to generate Wallet by userId {}", request.getUserId());
 		
-		Map<String, Map<String, Integer>> ordersGrouped =
-			    orders.stream().collect(
-			    		Collectors.groupingBy(Order::getStock,
-			    		Collectors.groupingBy(Order::getType, Collectors.summingInt(Order::getQuantity))
-			    		
-			    							 )
-			    		);
-			    
-			    /*
-			    .entrySet()
-			    .stream()
-			    .flatMap(e1 -> e1.getValue()
-			    		.entrySet()
-			    		.stream()
-			    		.map(e2 -> new Order(e2.getValue(), e2.getValue(), e2.getValue())
-			    		.collect(Collectors.toList())));*/
+		List<Order> orders = repository.findByUserId(request.getUserId());	
+		
+		logger.info("Found orders {}", orders);
+		
+		Map<String, List<Order>> ordersGrouped =
+			    orders.stream().collect(Collectors.groupingBy(Order::getStock));
+		
+		logger.info("Grouped by Stock {}", ordersGrouped);
 		
 		
-		return WalletResult.builder()
-				.person(request.getPerson())
-				.type("BUY")
-				.stock("PETR4")
-				.sumQuantity(30)
-				.avgPrice(new BigDecimal(32))
-				.avgBrokeragePrice(new BigDecimal(1))
-				.wallet(ordersGrouped)
-				.build();		
+		logger.info("Dividr por tipos compra e venda");
+		logger.info("Fazer a somatoria, media de acordo com a data de compra e somar quando for buy, subitrair cquando for sell");
+		
+		WalletResult result = WalletResult.builder()
+			.userId(request.getUserId())
+			.type("BUY")
+			.stock("PETR4")
+			.sumQuantity(30)
+			.avgPrice(new BigDecimal(32))
+			.avgBrokeragePrice(new BigDecimal(1))
+			.wallet(ordersGrouped)
+			.build();
+		
+		logger.info("WalletGenerate result {}", orders);
+		
+		return result;		
 	}
 	
 	public WalletResult generateWalletWithoutDate(WalletRequest request) {

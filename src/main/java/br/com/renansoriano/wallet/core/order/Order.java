@@ -17,7 +17,7 @@ import lombok.ToString;
 public class Order {
 
 	private final UUID id;
-	private final UUID person;
+	private final UUID userId;
 	private final ZonedDateTime buyDate;
 	private final String type;
 	private final String financialInstitute;
@@ -29,7 +29,7 @@ public class Order {
 	@Builder
 	private Order(
 			@NonNull UUID id, 
-			@NonNull UUID person,
+			@NonNull UUID userId,
 			@NonNull ZonedDateTime buyDate, 
 			@NonNull String type, 
 			@NonNull String financialInstitute, 
@@ -38,7 +38,7 @@ public class Order {
 			@NonNull BigDecimal price, 
 			@NonNull BigDecimal brokeragePrice) {
 		this.id = id;
-		this.person = person;
+		this.userId = userId;
 		this.buyDate = buyDate.truncatedTo(ChronoUnit.MILLIS);
 		this.type = type;
 		this.financialInstitute = financialInstitute;

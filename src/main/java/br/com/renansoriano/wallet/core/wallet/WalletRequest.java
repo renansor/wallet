@@ -14,21 +14,21 @@ import lombok.ToString;
 @ToString
 public class WalletRequest {
 
-	private final UUID person;
+	private final UUID userId;
 	private final ZonedDateTime buyDate;
 	
 	@Builder(builderMethodName = "walletWithDate")
 	private WalletRequest(
-			@NonNull UUID person, 
+			@NonNull UUID userId, 
 			@NonNull ZonedDateTime buyDate) {
-		this.person = person;
+		this.userId = userId;
 		this.buyDate = buyDate;
 	}
 	
 	@Builder(builderMethodName = "walletWithoutDate")
 	private WalletRequest(
-			@NonNull UUID person) {
-		this.person = person;
+			@NonNull UUID userId) {
+		this.userId = userId;
 		this.buyDate = null;
 	}
 }
