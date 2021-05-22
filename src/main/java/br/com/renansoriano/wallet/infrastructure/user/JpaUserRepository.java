@@ -21,8 +21,6 @@ public class JpaUserRepository implements UserRepository {
 
 	private static final String QUERY_FIND_ALL = "SELECT p FROM UserEntity p";
 	private static final String QUERY_FIND_BY_USER_ID = "SELECT p FROM UserEntity p WHERE p.id = :id";
-	private static final String QUERY_DELETE_BY_USER_ID = "DELETE FROM UserEntity WHERE id = :id";
-	private static final String QUERY_UPDATE_BY_USER_ID = "UPDATE UserEntity  " ;
 
 	private EntityManager entityManager;
 
@@ -116,10 +114,14 @@ public class JpaUserRepository implements UserRepository {
 	public void update(User user) {
 		logger.info("Updating User {}", user);
 
-		//List<User> userDataBase = (List<User>) findByUserId(user.getId());
-		 
-	
-		//usario.set
+		try {
+			entityManager.merge(UserEntity.of(user));	
+		} catch (Exception exception) {
+			throw new UserSaveException(
+					exception, 
+					"was not possible to update user %s",
+					user);
+		}
 		
 	}
 }

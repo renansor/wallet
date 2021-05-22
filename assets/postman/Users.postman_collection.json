@@ -33,6 +33,34 @@
 			"response": []
 		},
 		{
+			"name": "update user",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\": \"Dani\",\n    \"last_name\": \"Miguel\",\n    \"user_name\": \"renansor\",\n    \"birthday\": \"1990-08-03\",\n    \"email\": \"renan.soriano@gmail.com\",\n    \"mobile\": \"+5511960817209\",\n    \"document\": \"41103756818\",\n    \"password\": \"Renan2021\",\n    \"about_me\": \"criando app como hobby\",\n    \"profile_photo\": \"default\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/users/db4576f6-ddca-464d-9980-2bc465c15d4e",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"users",
+						"db4576f6-ddca-464d-9980-2bc465c15d4e"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "delete user",
 			"request": {
 				"method": "DELETE",
@@ -47,14 +75,14 @@
 					}
 				},
 				"url": {
-					"raw": "localhost:8080/users/625bc511-bdfa-420d-9e05-460d85a09671",
+					"raw": "localhost:8080/users/9603c130-8261-46f1-84c4-38918e4d19f3",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
 						"users",
-						"625bc511-bdfa-420d-9e05-460d85a09671"
+						"9603c130-8261-46f1-84c4-38918e4d19f3"
 					]
 				}
 			},
@@ -85,6 +113,37 @@
 					"port": "8080",
 					"path": [
 						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "list user by id",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\": \"Renan\",\n    \"last_name\": \"Soriano\",\n    \"user_name\": \"renansor\",\n    \"birthday\": \"1990-08-03\",\n    \"email\": \"renan.soriano@gmail.com\",\n    \"mobile\": \"+5511960817209\",\n    \"document\": \"41103756818\",\n    \"password\": \"Renan2021\",\n    \"about_me\": \"criando app como hobby\",\n    \"profile_photo\": \"default\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/users/9603c130-8261-46f1-84c4-38918e4d19f3",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"users",
+						"9603c130-8261-46f1-84c4-38918e4d19f3"
 					]
 				}
 			},
