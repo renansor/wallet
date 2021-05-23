@@ -8,11 +8,14 @@ import javax.persistence.EntityManager;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import br.com.renansoriano.wallet.core.user.User;
 import br.com.renansoriano.wallet.core.user.UserRepository;
+import br.com.renansoriano.wallet.infrastructure.security.UserDetailsImpl;
 
 @Component
 public class JpaUserRepository implements UserRepository {
@@ -21,6 +24,7 @@ public class JpaUserRepository implements UserRepository {
 
 	private static final String QUERY_FIND_ALL = "SELECT p FROM UserEntity p";
 	private static final String QUERY_FIND_BY_USER_ID = "SELECT p FROM UserEntity p WHERE p.id = :id";
+	private static final String QUERY_FIND_BY_USER_NAME = "SELECT p FROM UserEntity p WHERE p.user_name = :name";
 
 	private EntityManager entityManager;
 
@@ -123,5 +127,23 @@ public class JpaUserRepository implements UserRepository {
 					user);
 		}
 		
+	}
+	
+	public UserDetails loadByUserName(String username) {	
+		
+		logger.info("loading by username {}", username);
+
+		UserEntity entity = entityManager
+				.createQuery(QUERY_FIND_BY_USER_NAME, UserEntity.class)
+				.setParameter("name", username)
+				.getSingleResult();
+		
+		logger.info("Found entity {}", entity);
+
+		User user = entity.toUser();
+		
+		logger.info("Converted to User {}", user);
+
+		return UserDetailsImpl.build(user);
 	}
 }

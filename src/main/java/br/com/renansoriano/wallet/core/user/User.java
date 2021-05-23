@@ -2,6 +2,7 @@ package br.com.renansoriano.wallet.core.user;
 
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
+import java.util.Set;
 import java.util.UUID;
 
 import lombok.Builder;
@@ -27,6 +28,7 @@ public class User {
 	private final ZonedDateTime createdAt;
 	private final String aboutMe;
 	private final String profilePhoto;
+	private final Set<Role> roles;
 
 	@Builder
 	private User(
@@ -41,7 +43,8 @@ public class User {
 			@NonNull String password,
 			@NonNull ZonedDateTime createdAt,
 			@NonNull String aboutMe,
-			@NonNull String profilePhoto) {
+			@NonNull String profilePhoto,
+			@NonNull Set<Role> roles) {
 		this.id =id;
 		this.name = name;
 		this.lastName = lastName;
@@ -54,5 +57,6 @@ public class User {
 		this.createdAt = createdAt;
 		this.aboutMe = aboutMe;
 		this.profilePhoto = profilePhoto;
+		this.roles = roles;
 	}
 }
