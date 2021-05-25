@@ -8,6 +8,7 @@ import javax.persistence.EntityManager;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,8 +22,10 @@ public class JpaUserRepository implements UserRepository {
 
 	private static final String QUERY_FIND_ALL = "SELECT p FROM UserEntity p";
 	private static final String QUERY_FIND_BY_USER_ID = "SELECT p FROM UserEntity p WHERE p.id = :id";
+	private static final String QUERY_FIND_BY_USER_NAME = "SELECT p FROM UserEntity p WHERE p.user_name = :name";
 
 	private EntityManager entityManager;
+	private BCryptPasswordEncoder bCryptPasswordEncoder;
 
 	public JpaUserRepository(EntityManager entityManager) {
 		this.entityManager = entityManager;
@@ -77,7 +80,7 @@ public class JpaUserRepository implements UserRepository {
 		logger.info("Persisting User {}", user);
 		
 		try {
-			entityManager.persist(UserEntity.of(user));
+			entityManager.persist(UserEntity.of(encodePassword(user)));
 		} catch (Exception exception) {
 			throw new UserSaveException(
 					exception, 
@@ -123,5 +126,45 @@ public class JpaUserRepository implements UserRepository {
 					user);
 		}
 		
+	}
+	
+	public User loadByUserName(String username) {	
+		
+		logger.info("loading by username {}", username);
+
+		UserEntity entity = entityManager
+				.createQuery(QUERY_FIND_BY_USER_NAME, UserEntity.class)
+				.setParameter("name", username)
+				.getSingleResult();
+		
+		logger.info("Found entity {}", entity);
+
+		User user = entity.toUser();
+		
+		logger.info("Converted to User {}", user);
+
+		return user;
+	}
+	
+	@Transactional
+	public User encodePassword(User user) { 
+	   
+		User userWithPasswordEncoded = User.builder()
+				.id(user.getId())
+				.name(user.getName())
+				.lastName(user.getLastName())
+				.userName(user.getUserName())
+				.birthday(user.getBirthday())
+				.email(user.getEmail())
+				.mobile(user.getMobile())
+				.document(user.getDocument())
+				.password(bCryptPasswordEncoder.encode(user.getPassword()))
+				.aboutMe(user.getAboutMe())
+				.profilePhoto(user.getProfilePhoto())
+				.createdAt(user.getCreatedAt())
+				.build();
+		
+		 return userWithPasswordEncoded;
+	    
 	}
 }

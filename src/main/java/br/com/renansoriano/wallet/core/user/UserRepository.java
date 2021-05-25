@@ -15,4 +15,6 @@ public interface UserRepository {
 	
 	void update(User user);
 	
+	User loadByUserName(String username);
+	
 }
