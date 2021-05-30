@@ -17,4 +17,12 @@ public interface UserRepository {
 	
 	User loadByUserName(String username);
 	
+	Boolean existsByUsername(String username);
+
+	Boolean existsByEmail(String email);
+
+	Boolean existsByMobile(String mobile);
+
+	Boolean existsByDocument(String document);
+	
 }

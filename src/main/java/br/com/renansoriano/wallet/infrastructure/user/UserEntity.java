@@ -48,7 +48,7 @@ public class UserEntity {
 
 	@Column(name = "user_name", nullable = false)
 	private String userName;
-
+		
 	@Column(name = "birthday", nullable = false)
 	private LocalDate birthday;
 
@@ -59,7 +59,7 @@ public class UserEntity {
 	private String mobile;
 
 	@Column(name = "document", nullable = false)
-	private String document;
+	private String document;	
 
 	@Column(name = "password", nullable = false)
 	private String password;

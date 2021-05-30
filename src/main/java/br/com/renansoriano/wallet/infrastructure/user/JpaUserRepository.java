@@ -8,7 +8,6 @@ import javax.persistence.EntityManager;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,12 +21,16 @@ public class JpaUserRepository implements UserRepository {
 
 	private static final String QUERY_FIND_ALL = "SELECT p FROM UserEntity p";
 	private static final String QUERY_FIND_BY_USER_ID = "SELECT p FROM UserEntity p WHERE p.id = :id";
-	private static final String QUERY_FIND_BY_USER_NAME = "SELECT p FROM UserEntity p WHERE p.user_name = :name";
-
+	private static final String QUERY_FIND_BY_USER_NAME = "SELECT p FROM UserEntity p WHERE p.userName = :name";
+	private static final String QUERY_USER_NAME_EXISTS = "SELECT count(p) FROM UserEntity p WHERE p.userName = :name";
+	private static final String QUERY_EMAIL_EXISTS = "SELECT count(p) FROM UserEntity p WHERE p.email = :email";
+	private static final String QUERY_MOBILE_EXISTS = "SELECT count(p) FROM UserEntity p WHERE p.mobile = :mobile";
+	private static final String QUERY_DOCUMENT_EXISTS = "SELECT count(p) FROM UserEntity p WHERE p.document = :document";
+	
 	private EntityManager entityManager;
-	private BCryptPasswordEncoder bCryptPasswordEncoder;
 
-	public JpaUserRepository(EntityManager entityManager) {
+	public JpaUserRepository(
+			EntityManager entityManager) {
 		this.entityManager = entityManager;
 	}
 	
@@ -80,7 +83,7 @@ public class JpaUserRepository implements UserRepository {
 		logger.info("Persisting User {}", user);
 		
 		try {
-			entityManager.persist(UserEntity.of(encodePassword(user)));
+			entityManager.persist(UserEntity.of(user));
 		} catch (Exception exception) {
 			throw new UserSaveException(
 					exception, 
@@ -145,26 +148,93 @@ public class JpaUserRepository implements UserRepository {
 
 		return user;
 	}
-	
-	@Transactional
-	public User encodePassword(User user) { 
-	   
-		User userWithPasswordEncoded = User.builder()
-				.id(user.getId())
-				.name(user.getName())
-				.lastName(user.getLastName())
-				.userName(user.getUserName())
-				.birthday(user.getBirthday())
-				.email(user.getEmail())
-				.mobile(user.getMobile())
-				.document(user.getDocument())
-				.password(bCryptPasswordEncoder.encode(user.getPassword()))
-				.aboutMe(user.getAboutMe())
-				.profilePhoto(user.getProfilePhoto())
-				.createdAt(user.getCreatedAt())
-				.build();
+
+	@Override
+	public Boolean existsByUsername(String username) {
 		
-		 return userWithPasswordEncoded;
-	    
+		logger.info("checking if username exists {}", username);
+
+		Long count = (Long) entityManager
+				.createQuery(QUERY_USER_NAME_EXISTS)
+				.setParameter("name", username)
+				.getSingleResult();
+		
+		Boolean exists;
+		
+		if (count > 0) {
+			exists = true;
+		} else {
+			exists = false;
+		}
+		
+		logger.info("Found username {}", exists);
+
+		return exists;
+	}
+
+	@Override
+	public Boolean existsByEmail(String email) {
+		logger.info("checking if email exists {}", email);
+
+		Long count = (Long) entityManager
+				.createQuery(QUERY_EMAIL_EXISTS)
+				.setParameter("email", email)
+				.getSingleResult();
+		
+		Boolean exists;
+		
+		if (count > 0) {
+			exists = true;
+		} else {
+			exists = false;
+		}
+		
+		logger.info("Found email {}", exists);
+
+		return exists;
+	}
+	
+	@Override
+	public Boolean existsByMobile(String mobile) {
+		logger.info("checking if mobile exists {}", mobile);
+
+		Long count = (Long) entityManager
+				.createQuery(QUERY_MOBILE_EXISTS)
+				.setParameter("mobile", mobile)
+				.getSingleResult();
+		
+		Boolean exists;
+		
+		if (count > 0) {
+			exists = true;
+		} else {
+			exists = false;
+		}
+		
+		logger.info("Found mobile {}", exists);
+
+		return exists;
+	}
+	
+	@Override
+	public Boolean existsByDocument(String document) {
+		logger.info("checking if document exists {}", document);
+
+		Long count = (Long) entityManager
+				.createQuery(QUERY_DOCUMENT_EXISTS)
+				.setParameter("document", document)
+				.getSingleResult();
+		
+		Boolean exists;
+		
+		if (count > 0) {
+			exists = true;
+		} else {
+			exists = false;
+		}
+		
+		logger.info("Found document {}", exists);
+
+		return exists;
 	}
 }

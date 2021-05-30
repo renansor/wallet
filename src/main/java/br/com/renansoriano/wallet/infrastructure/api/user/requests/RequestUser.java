@@ -1,6 +1,7 @@
-package br.com.renansoriano.wallet.infrastructure.api;
+package br.com.renansoriano.wallet.infrastructure.api.user.requests;
 
 import java.time.LocalDate;
+import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -44,4 +45,7 @@ public class RequestUser {
 	
 	@JsonProperty("profile_photo")
 	private String profilePhoto;
+	
+	@JsonProperty("roles")
+	private Set<String> roles;
 }

@@ -32,7 +32,8 @@ public class JpaRoleRepository implements RoleRepository {
 
 		logger.info("Finding by name {}", name);
 
-		RoleEntity entity = entityManager.createQuery(QUERY_FIND_BY_NAME, RoleEntity.class).setParameter("name", name)
+		RoleEntity entity = entityManager.createQuery(QUERY_FIND_BY_NAME, RoleEntity.class)
+				.setParameter("name", name)
 				.getSingleResult();
 
 		logger.info("Found entity {}", entity);

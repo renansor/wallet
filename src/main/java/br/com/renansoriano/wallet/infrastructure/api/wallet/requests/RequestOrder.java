@@ -1,4 +1,4 @@
-package br.com.renansoriano.wallet.infrastructure.api;
+package br.com.renansoriano.wallet.infrastructure.api.wallet.requests;
 
 import java.math.BigDecimal;
 import java.time.ZonedDateTime;
